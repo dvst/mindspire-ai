@@ -1,0 +1,24 @@
+{  
+  "report": {  
+    "issues": [  
+      {  
+        "description": "Lack of alternative text for images.",  
+        "suggestion": "Add 'alt' attributes to all images to provide descriptive text for screen readers.",  
+        "code_suggestion": "<img src='image.jpg' alt='Description of the image'>",  
+        "code_fragment": ""  
+      },  
+      {  
+        "description": "Color contrast issues.",  
+        "suggestion": "Ensure that the text color has sufficient contrast against the background color to meet WCAG standards.",  
+        "code_suggestion": "Change color to a darker shade or use a different background color.",  
+        "code_fragment": "body{ background: #CFC; color: blue; }"  
+      },  
+      {  
+        "description": "Missing landmarks for navigation.",  
+        "suggestion": "Use ARIA landmarks or HTML5 semantic elements (like <nav>, <main>, <footer>) to improve navigation for assistive technologies.",  
+        "code_suggestion": "<nav>...</nav>",  
+        "code_fragment": ""  
+      }  
+    ]  
+  }  
+}  
