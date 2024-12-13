@@ -5,11 +5,13 @@
     },
     "waitFor": "onCreateCommand",
     "updateContentCommand": "python3 -m pip install -r requirements.txt",
-    "postCreateCommand": "",
+    "postCreateCommand": "pip install -r requirements.txt && playwright install chromium",
     "features": {
         "ghcr.io/devcontainers/features/azure-cli:1": {
           "installBicep": true
-        }
+        },
+        "ghcr.io/devcontainers/features/python:1": {},
+        "ghcr.io/devcontainers/features/node:1": {}
       },
     "customizations": {
       "codespaces": {
