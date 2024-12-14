@@ -161,3 +161,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 /backend-playwright/venv_py311
+
+# Local settings files for Azure Functions -> https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/2-azure-function-development-overview
+**/local.settings.json
