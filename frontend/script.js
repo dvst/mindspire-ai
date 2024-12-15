@@ -110,8 +110,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const data = await response.json();
-            // Display the response data in a formatted way
-            output.innerHTML = JSON.stringify(data, null, 2);
+            output.innerHTML = data.map(issue => `
+                <div class="issue">
+                    <p><strong>Description:</strong> ${issue.description}</p>
+                    <p><strong>Code Fragment:</strong> ${issue.code_fragment}</p>
+                    <p><strong>Suggestion:</strong> ${issue.suggestion}</p>
+                    <p><strong>Code Suggestion:</strong> ${issue.code_suggestion}</p>
+                </div>
+            `).join('');
 
         } catch (error) {
             output.textContent = `Error: ${error.message}`;
