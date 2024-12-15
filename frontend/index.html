@@ -382,17 +382,18 @@
     <!-- Add this just before the closing </body> tag -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const form = document.querySelector('form[role="search"]');
-        const resultsContainer = document.getElementById('analysis-results-container');
-        const initialState = resultsContainer.querySelector('.text-gray-500');
-        const resultsDiv = document.getElementById('analysis-results');
-
-        form.addEventListener('submit', async function(e) {
+        // Move form handler outside and make it reusable
+        async function handleFormSubmit(e) {
             e.preventDefault();
             const urlInput = document.getElementById('url-input');
             const url = urlInput.value;
+            const resultsContainer = document.getElementById('analysis-results-container');
+            const initialState = resultsContainer.querySelector('.text-gray-500');
+            const resultsDiv = document.getElementById('analysis-results');
 
             // Show loading state
+            initialState.classList.remove('hidden');
+            resultsDiv.classList.add('hidden');
             initialState.innerHTML = `
                 <svg class="animate-spin h-8 w-8 mx-auto mb-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -471,6 +472,9 @@
                     hljs.highlightElement(block);
                 });
             } catch (error) {
+                console.error('Error:', error);
+                initialState.classList.remove('hidden');
+                resultsDiv.classList.add('hidden');
                 initialState.innerHTML = `
                     <svg class="w-16 h-16 mx-auto mb-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -478,6 +482,14 @@
                     <h2 class="text-xl font-semibold mb-2">Error</h2>
                     <p class="text-gray-600">Unable to analyze the website. Please try again.</p>
                 `;
+            }
+        }
+
+        // Use event delegation for form submissions
+        document.addEventListener('submit', function(e) {
+            const form = e.target.closest('form[role="search"]');
+            if (form) {
+                handleFormSubmit(e);
             }
         });
     });

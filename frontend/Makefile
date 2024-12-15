@@ -14,13 +14,14 @@ all: help
 .PHONY: help
 help:
 	@echo "Available targets:"
-	@echo "  make create-plan    - Create Azure App Service Plan"
-	@echo "  make create-webapp  - Create Azure Web App"
-	@echo "  make build         - Build and zip the application"
-	@echo "  make deploy        - Deploy application to Azure"
-	@echo "  make check-status  - Check webapp status"
-	@echo "  make clean         - Remove build artifacts"
-	@echo "  make all-in-one    - Execute complete deployment process"
+	@echo "  make create-plan      - Create Azure App Service Plan"
+	@echo "  make create-webapp    - Create Azure Web App"
+	@echo "  make build            - Build and zip the application"
+	@echo "  make deploy           - Deploy application to Azure"
+	@echo "  make check-status     - Check webapp status"
+	@echo "  make clean            - Remove build artifacts"
+	@echo "  make build-and-deploy - Build and deploy application"
+	@echo "  make all-in-one       - Execute complete deployment process"
 
 # Create App Service Plan
 .PHONY: create-plan
