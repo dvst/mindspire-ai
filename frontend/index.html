@@ -6,6 +6,9 @@
     <title>Accessible Landing Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
 </head>
 <body class="font-sans antialiased">
     <!-- Navigation -->
@@ -102,7 +105,7 @@
 
                 <!-- Right side - Results Panel -->
                 <div class="flex-1 bg-white p-6 rounded-lg shadow-lg border border-gray-200" role="region" aria-label="Analysis Results">
-                    <div class="h-full flex flex-col items-center justify-center text-center min-h-[400px]">
+                    <div id="analysis-results-container" class="h-full flex flex-col items-center justify-center text-center min-h-[400px]">
                         <!-- Initial state -->
                         <div class="text-gray-500">
                             <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -375,5 +378,132 @@
             </div>
         </div>
     </footer>
+
+    <!-- Add this just before the closing </body> tag -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form[role="search"]');
+        const resultsContainer = document.getElementById('analysis-results-container');
+        const initialState = resultsContainer.querySelector('.text-gray-500');
+        const resultsDiv = document.getElementById('analysis-results');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const urlInput = document.getElementById('url-input');
+            const url = urlInput.value;
+
+            // Show loading state
+            initialState.innerHTML = `
+                <svg class="animate-spin h-8 w-8 mx-auto mb-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <h2 class="text-xl font-semibold mb-2">Analyzing...</h2>
+                <p class="text-gray-600">Please wait while we check your website</p>
+            `;
+
+            try {
+                const response = await fetch('https://mindspire-backenddemo.azurewebsites.net/api/http_trigger', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: url })
+                });
+
+                const data = await response.json();
+                
+                // Hide initial state and show results
+                initialState.classList.add('hidden');
+                resultsDiv.classList.remove('hidden');
+
+                // Create accordion with results
+                resultsDiv.innerHTML = `
+                    <div class="w-full space-y-4">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Accessibility Analysis Results</h2>
+                        ${data.map((item, index) => `
+                            <div class="border border-gray-200 rounded-lg overflow-hidden">
+                                <button 
+                                    class="w-full px-4 py-3 text-left bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-between text-white transition-colors"
+                                    onclick="toggleAccordion(${index})"
+                                    aria-expanded="false"
+                                    aria-controls="content-${index}"
+                                >
+                                    <span class="font-medium">${item.description}</span>
+                                    <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                    </svg>
+                                </button>
+                                <div 
+                                    id="content-${index}" 
+                                    class="hidden px-4 py-3 bg-gray-50"
+                                    role="region"
+                                >
+                                    <div class="space-y-4">
+                                        ${item.code_fragment ? `
+                                            <div>
+                                                <h4 class="font-semibold text-gray-700 mb-2">Current Code:</h4>
+                                                <pre class="bg-gray-800 rounded-md"><code class="language-html hljs p-3 block overflow-x-auto">${escapeHtml(item.code_fragment)}</code></pre>
+                                            </div>
+                                        ` : ''}
+                                        <div>
+                                            <h4 class="font-semibold text-gray-700 mb-2">Suggestion:</h4>
+                                            <p class="text-gray-600">${item.suggestion}</p>
+                                        </div>
+                                        ${item.code_suggestion ? `
+                                            <div>
+                                                <h4 class="font-semibold text-gray-700 mb-2">Suggested Code:</h4>
+                                                <pre class="bg-gray-800 rounded-md"><code class="language-html hljs p-3 block overflow-x-auto">${escapeHtml(item.code_suggestion)}</code></pre>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                // Initialize syntax highlighting
+                document.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
+            } catch (error) {
+                initialState.innerHTML = `
+                    <svg class="w-16 h-16 mx-auto mb-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h2 class="text-xl font-semibold mb-2">Error</h2>
+                    <p class="text-gray-600">Unable to analyze the website. Please try again.</p>
+                `;
+            }
+        });
+    });
+
+    // Helper function to escape HTML
+    function escapeHtml(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    // Accordion toggle function
+    function toggleAccordion(index) {
+        const button = document.querySelector(`button[aria-controls="content-${index}"]`);
+        const content = document.getElementById(`content-${index}`);
+        const icon = button.querySelector('svg');
+        
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        
+        button.setAttribute('aria-expanded', !isExpanded);
+        content.classList.toggle('hidden');
+        icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+        
+        // Update button background color
+        button.classList.toggle('bg-blue-700', !isExpanded);
+    }
+    </script>
 </body>
 </html>
