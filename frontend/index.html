@@ -84,7 +84,7 @@
         <form id="uploadForm">
             <div>
                 <label for="url">Enter URL</label>
-                <input type="url" id="url" placeholder="https://example.com" required>
+                <input type="url" id="url" placeholder="https://data.seattle.gov/dataset/example" pattern="^https?:\/\/([a-zA-Z0-9-]+\.)*gov\.[a-z]{2,6}(\/.*)?$" required>
             </div>
             <div>
                 <label for="file">Upload Document</label>

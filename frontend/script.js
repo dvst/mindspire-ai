@@ -5,6 +5,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropArea = document.getElementById('dropArea');
     const output = document.getElementById('output');
 
+    // Add URL validation function
+    function isValidGovUrl(url) {
+        try {
+            let urlToCheck = url;
+            // If no protocol is specified, prepend https://
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                urlToCheck = 'https://' + url;
+            }
+            const urlObj = new URL(urlToCheck);
+            // Updated regex to accept both .gov and .gov.XX domains
+            const govDomainRegex = /^([a-zA-Z0-9-]+\.)*(gov|gob)(\.[a-z]{2,6})?$/i;
+            return govDomainRegex.test(urlObj.hostname);
+        } catch {
+            return false;
+        }
+    }
+
+    // Add input validation
+    urlInput.addEventListener('input', (e) => {
+        const url = e.target.value;
+        if (url && !isValidGovUrl(url)) {
+            urlInput.setCustomValidity('Please enter a valid government URL (e.g., https://data.seattle.gov/dataset/example, https://www.economia.gob.mx/path)');
+        } else {
+            urlInput.setCustomValidity('');
+        }
+    });
+
+
     // Handle drag and drop
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
         dropArea.addEventListener(eventName, preventDefaults, false);
@@ -58,8 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const url = urlInput.value;
         const file = fileInput.files[0];
         
-        // Here you would typically send the data to your backend
-        // For this example, we'll just display the input values
+        if (!isValidGovUrl(url)) {
+            output.textContent = 'Error: Invalid government URL';
+            return;
+        }
+        
         output.textContent = `URL: ${url}\nFile: ${file ? file.name : 'No file uploaded'}`;
     });
+
 });
