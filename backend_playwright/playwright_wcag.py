@@ -20,7 +20,7 @@ def check_basic_accessibility(page):
                 })
         return issues
 
-    def check_headings(soup):
+    """ def check_headings(soup):
         headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
         issues = []
         prev_level = 0
@@ -32,9 +32,9 @@ def check_basic_accessibility(page):
                     "code_fragment": str(h)
                 })
             prev_level = curr_level
-        return issues
+        return issues """
 
-    return check_images(soup) + check_headings(soup)
+    return check_images(soup) #+ check_headings(soup)
 
 def run_axe_analysis(page):
     results = page.evaluate("""

@@ -29,9 +29,9 @@ def analyze_page():
 
 
     try:
-        correcciones = get_chat_completion(hallazgos)  # Script 2
+        correcciones = get_chat_completion(hallazgos, temperature = 0, max_tokens=2000)  # Script 2
     except Exception as e:
-        return jsonify({'fourth_error': str(e)}), 500
+        return jsonify({'error': str(e)}), 500
 
     # 4. Devolver las correcciones al frontend
     return jsonify(correcciones), 200

@@ -54,9 +54,11 @@ def get_chat_completion(prompt, model=chat_model, temperature=0, max_tokens=200,
                 }
                 ]
             }
+            3. Debes recorrer cada caso de accesibilidad que te indicaré en el prompt y generar un reporte con un tipo de cada caso de accesibilidad. 
+            4. Si no se detectan problemas de accesibilidad en el análisis, devuelve un JSON vacío: {{}}.
             """,
         },
-        {"role": "user", "content": prompt},
+        {"role": "user", "content": prompt}
     ]
     response = openai.ChatCompletion.create(
         engine=model,
@@ -75,32 +77,3 @@ if __name__ == "__main__":
     response = get_chat_completion(messages, temperature = 0, max_tokens=200)
     print(response)
 
-
-'''
-
-        prompt = f"""
-            {json.dumps(web_content)}
-
-            Eres un agente fiscalizador de accesibilidad de páginas web que cumple con todas las normas de WCAG (Web Content Accessibility Guidelines). 
-            Analiza el HTML y CSS descritos y devuelve un reporte en formato JSON con las siguientes reglas:
-
-            1. Si se encuentra algún problema de accesibilidad, genera un reporte detallado con la estructura siguiente:
-
-            {{
-            "report": {{
-                "issues": [
-                {{
-                    "description": "",   // Breve descripción del problema de accesibilidad encontrado.
-                    "suggestion": "",    // Sugerencia específica para solucionar el problema.
-                    "code_suggestion": "",  // Fragmento de código recomendado como solución.
-                    "code_fragment": ""  // Fragmento del código analizado que presenta el problema.
-                }}
-                ]
-            }}
-            }}
-
-            2. Si no se detectan problemas de accesibilidad en el análisis, devuelve un JSON vacío: {{}}.
-
-            Asegúrate de que el JSON generado sea válido y procesable, y enfoca las recomendaciones en cumplir con los criterios de éxito de nivel A y AA de WCAG.
-            """
-'''
