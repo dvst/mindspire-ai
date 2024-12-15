@@ -3,112 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Upload Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(to bottom right, #e0cffc, #c7d2fe);
-        }
-        .container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            width: 100%;
-            max-width: 500px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        label {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-        input[type="url"] {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .file-drop-area {
-            border: 2px dashed #ccc;
-            border-radius: 4px;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: border-color 0.3s;
-        }
-        .file-drop-area:hover, .file-drop-area.drag-over {
-            border-color: #7c3aed;
-        }
-        .file-drop-area p {
-            margin: 0;
-            color: #666;
-        }
-        button {
-            background-color: #7c3aed;
-            color: white;
-            border: none;
-            padding: 0.75rem;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #6d28d9;
-        }
-        #output {
-            margin-top: 1rem;
-            padding: 1rem;
-            background-color: #f3f4f6;
-            border-radius: 4px;
-            white-space: pre-wrap;
-        }
-        .issue {
-            margin-bottom: 1rem;
-            padding: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-    </style>
+    <title>Accessible Landing Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="container">
-        <h1>Modern Upload Form</h1>
-        <form id="uploadForm">
-            <div>
-                <label for="url">Enter URL</label>
-                <input 
-                type="url" 
-                id="url" 
-                placeholder="https://data.seattle.gov/dataset/example" 
-                pattern="^(https?:\/\/)?([a-zA-Z0-9-]+\.)*(gov|gob)(\.[a-z]{2,6})?(/.*)?$" 
-                required
-            >
-            </div>
-            <div>
-                <label for="file">Upload Document</label>
-                <div id="dropArea" class="file-drop-area">
-                    <p>Drag and drop your file here, or click to select</p>
+<body class="font-sans antialiased">
+    <!-- Navigation -->
+    <nav class="bg-white shadow" role="navigation" aria-label="Main navigation">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-xl font-bold text-gray-800" aria-label="Home">
+                        YourLogo
+                    </a>
                 </div>
-                <input type="file" id="file" hidden>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-gray-900 transition-colors">Features</a>
+                    <a href="#benefits" class="text-gray-600 hover:text-gray-900 transition-colors">Benefits</a>
+                    <a href="#testimonials" class="text-gray-600 hover:text-gray-900 transition-colors">Testimonials</a>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-label="Get Started">
+                        Get Started
+                    </button>
+                </div>
+                <!-- Mobile menu button -->
+                <button class="md:hidden bg-white p-2 rounded-md" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
             </div>
-            <button type="submit">Submit</button>
-        </form>
-        <div id="output"></div>
-    </div>
-    <script src="script.js"></script>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gray-50 py-20" aria-labelledby="hero-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-start lg:space-x-8">
+                <!-- Left side - Search and Info -->
+                <div class="flex-1 text-center lg:text-left mb-8 lg:mb-0">
+                    <h1 id="hero-heading" class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                        Mindspire - Web Accessibility Checker
+                    </h1>
+                    <p class="mt-3 max-w-md mx-auto lg:mx-0 text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl">
+                        Enhance your website's accessibility with AI-powered suggestions. Make the web accessible for everyone.
+                    </p>
+                    
+                    <!-- Search Bar Form -->
+                    <form class="mt-8 max-w-2xl" role="search" aria-label="Website URL input form">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex-grow">
+                                <label for="url-input" class="sr-only">Enter website URL</label>
+                                <input 
+                                    type="url" 
+                                    id="url-input"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Ex: https://www.alantaga.gov"
+                                    pattern="https://.*"
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="url-hint"
+                                >
+                                <p id="url-hint" class="mt-2 text-sm text-gray-500 text-left">Please enter a valid HTTPS URL</p>
+                            </div>
+                            <button 
+                                type="submit"
+                                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                aria-label="Analyze website accessibility"
+                            >
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                Analyze Site
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="mt-8 flex flex-wrap justify-center lg:justify-start gap-4 text-sm">
+                        <span class="inline-flex items-center text-gray-600">
+                            <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            WCAG 2.1 Guidelines
+                        </span>
+                        <span class="inline-flex items-center text-gray-600">
+                            <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            AI-Powered Analysis
+                        </span>
+                        <span class="inline-flex items-center text-gray-600">
+                            <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Detailed Reports
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Right side - Results Panel -->
+                <div class="flex-1 bg-white p-6 rounded-lg shadow-lg border border-gray-200" role="region" aria-label="Analysis Results">
+                    <div class="h-full flex flex-col items-center justify-center text-center min-h-[400px]">
+                        <!-- Initial state -->
+                        <div class="text-gray-500">
+                            <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                            </svg>
+                            <h2 class="text-xl font-semibold mb-2">Ready to Analyze</h2>
+                            <p class="text-gray-600">Enter a URL above to start your accessibility analysis</p>
+                        </div>
+
+                        <!-- Results will be dynamically inserted here via JavaScript -->
+                        <div id="analysis-results" class="w-full hidden">
+                            <!-- Content will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="py-12 bg-white" aria-labelledby="testimonials-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 id="testimonials-heading" class="text-3xl font-extrabold text-center text-gray-900 mb-12">
+                Trusted by Accessibility Experts
+            </h2>
+            <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+                <div class="flex justify-center items-center">
+                    <img src="placeholder-logo1.svg" alt="Company 1 logo" class="h-12">
+                </div>
+                <div class="flex justify-center items-center">
+                    <img src="placeholder-logo2.svg" alt="Company 2 logo" class="h-12">
+                </div>
+                <div class="flex justify-center items-center">
+                    <img src="placeholder-logo3.svg" alt="Company 3 logo" class="h-12">
+                </div>
+                <div class="flex justify-center items-center">
+                    <img src="placeholder-logo4.svg" alt="Company 4 logo" class="h-12">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="py-16 bg-gray-50" aria-labelledby="benefits-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 id="benefits-heading" class="text-3xl font-extrabold text-center text-gray-900 mb-12">
+                Why Choose Us
+            </h2>
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="text-blue-600 mb-4">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Instant Scanning</h3>
+                    <p class="text-gray-600">Get immediate accessibility insights for your website.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="text-blue-600 mb-4">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">AI-Powered Suggestions</h3>
+                    <p class="text-gray-600">Smart recommendations to improve accessibility.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="text-blue-600 mb-4">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">WCAG Compliance</h3>
+                    <p class="text-gray-600">Ensure your site meets accessibility standards.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-16 bg-white" aria-labelledby="features-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 id="features-heading" class="text-3xl font-extrabold text-center text-gray-900 mb-12">
+                Key Features
+            </h2>
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <div class="relative p-6 border border-gray-200 rounded-lg">
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Automated Workflows</h3>
+                    <p class="text-gray-600">Streamline your processes with intelligent automation tools.</p>
+                </div>
+                <div class="relative p-6 border border-gray-200 rounded-lg">
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Real-time Analytics</h3>
+                    <p class="text-gray-600">Get insights instantly with our powerful analytics dashboard.</p>
+                </div>
+                <div class="relative p-6 border border-gray-200 rounded-lg">
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Team Collaboration</h3>
+                    <p class="text-gray-600">Work together seamlessly with built-in collaboration tools.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Developers Section -->
+    <section class="py-16 bg-gray-50" aria-labelledby="developers-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 id="developers-heading" class="text-3xl font-extrabold text-center text-gray-900 mb-12">
+                Meet Our Developers
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                <!-- Javitech -->
+                <div class="flex flex-col items-center">
+                    <div class="relative">
+                        <a href="https://www.linkedin.com/in/javierperezp/" 
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="block hover:opacity-90 transition-opacity"
+                           aria-label="Visit Javitech's LinkedIn profile">
+                            <img 
+                                src="https://media.licdn.com/dms/image/v2/D4E03AQHDcEwpUSBF3w/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1710457521947?e=1740009600&v=beta&t=yQJTI-RF1P0f2ZAgoYjcU1UyrEy-UMpDuqNsHnUq-BM" 
+                                alt="Javitech's profile picture" 
+                                class="w-32 h-32 rounded-full object-cover border-4 border-blue-500 shadow-lg transform scale-115"
+                                onerror="this.src='https://ui-avatars.com/api/?name=Javi+Tech&background=0066ff&color=fff'"
+                            >
+                        </a>
+                        <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-blue-500 px-4 py-1 rounded-full">
+                            <span class="text-white text-sm font-medium">Javitech</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-center">
+                        <h3 class="text-xl font-semibold text-gray-900">Javier Pérez (Javitech.co)</h3>
+                        <p class="text-gray-600 mt-2">Full Stack Developer</p>
+                        <div class="flex justify-center space-x-4 mt-4">
+                            <a href="https://www.linkedin.com/in/javierperezp/" 
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="text-gray-600 hover:text-blue-600 transition-colors"
+                               aria-label="Visit Javitech's LinkedIn profile">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                </svg>
+                            </a>
+                            <a href="https://www.youtube.com/@javitech_co?sub_confirmation=1" 
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="text-gray-600 hover:text-red-600 transition-colors"
+                               aria-label="Visit Javitech's YouTube channel">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leonel -->
+                <div class="flex flex-col items-center">
+                    <div class="relative">
+                        <a href="https://www.linkedin.com/in/bdleonel/" 
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="block hover:opacity-90 transition-opacity"
+                           aria-label="Visit Leonel's LinkedIn profile">
+                            <img 
+                                src="https://media.licdn.com/dms/image/v2/C4E03AQG3r8VNKy_FLQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1621057239732?e=1740009600&v=beta&t=wRPTnDR4mJFt__vSNZrMkwnE0F6qXAVWiZw-q3uvq6A" 
+                                alt="Leonel's profile picture" 
+                                class="w-32 h-32 rounded-full object-cover border-4 border-blue-500 shadow-lg"
+                                onerror="this.src='https://ui-avatars.com/api/?name=Leonel&background=0066ff&color=fff'"
+                            >
+                        </a>
+                        <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-blue-500 px-4 py-1 rounded-full">
+                            <span class="text-white text-sm font-medium">Leonel</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-center">
+                        <h3 class="text-xl font-semibold text-gray-900">Leonel</h3>
+                        <p class="text-gray-600 mt-2">Full Stack Developer</p>
+                        <div class="flex justify-center space-x-4 mt-4">
+                            <a href="https://www.linkedin.com/in/bdleonel/" 
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="text-gray-600 hover:text-blue-600 transition-colors"
+                               aria-label="Visit Leonel's LinkedIn profile">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                </svg>
+                            </a>
+                            <a href="https://www.youtube.com/@LBSCode?sub_confirmation=1" 
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="text-gray-600 hover:text-red-600 transition-colors"
+                               aria-label="Visit Leonel's YouTube channel">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">About</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Help Center</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center">
+                <p>&copy; 2024 Your Company. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

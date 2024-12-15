@@ -1,0 +1,43 @@
+/* Custom focus styles for better accessibility */
+*:focus {
+    outline: 2px solid #3B82F6;
+    outline-offset: 2px;
+}
+
+/* Skip to main content link - hidden by default, visible on focus */
+.skip-to-main-content {
+    position: absolute;
+    left: -9999px;
+    z-index: 999;
+    padding: 1em;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+}
+
+.skip-to-main-content:focus {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Ensure sufficient color contrast */
+.text-gray-600 {
+    color: #4B5563; /* WCAG AA compliant */
+}
+
+/* Ensure proper spacing for touch targets */
+@media (max-width: 768px) {
+    button, 
+    a {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* Reduce motion if user prefers */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+} 
