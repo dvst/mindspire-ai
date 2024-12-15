@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Handle form submission
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const url = urlInput.value;
         const file = fileInput.files[0];
@@ -90,8 +90,32 @@ document.addEventListener('DOMContentLoaded', () => {
             output.textContent = 'Error: Invalid government URL';
             return;
         }
-        
-        output.textContent = `URL: ${url}\nFile: ${file ? file.name : 'No file uploaded'}`;
+
+        try {
+            // Create form data
+            const formData = new FormData();
+            formData.append('url', url);
+            if (file) {
+                formData.append('file', file);
+            }
+
+            // Send POST request to the API
+            const response = await fetch('https://mindspire-backenddemo.azurewebsites.net/api/http_trigger', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            // Display the response data in a formatted way
+            output.innerHTML = JSON.stringify(data, null, 2);
+
+        } catch (error) {
+            output.textContent = `Error: ${error.message}`;
+        }
     });
 
 });
