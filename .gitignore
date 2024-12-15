@@ -167,3 +167,4 @@ cython_debug/
 
 # Local settings files for Azure Functions -> https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/2-azure-function-development-overview
 **/local.settings.json
+.DS_Store
