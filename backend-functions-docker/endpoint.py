@@ -20,7 +20,8 @@ def analyze_page():
 
     # Verificar si la URL pertenece a una página gubernamental
     if not ('.gov' in url or '.gob' in url):
-        return jsonify({'error_url': 'URL does not belong to a governmental website'}), 400
+        return jsonify({'fifth_error_url': 'URL does not belong to a governmental website'}), 400
+
 
     # 2. Ejecutar el script de análisis de accesibilidad
     try:
@@ -37,7 +38,7 @@ def analyze_page():
     except json.JSONDecodeError as e:
         return jsonify({'error_parse_correcciones': f'Failed to parse correcciones JSON: {str(e)}'}), 500
     except Exception as e:
-        return jsonify({'error_reporte': str(e)}), 500
+        return jsonify({'fourth_error_reporte': str(e)}), 500
 
     try:
         resumen = get_chat_summary(correcciones, language, temperature=0, max_tokens=200)
@@ -65,5 +66,4 @@ def analyze_page():
     return jsonify(unified_response), 200
 
 if __name__ == '__main__':
-
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

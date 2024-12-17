@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Send POST request to the API
-            const response = await fetch('https://mindspire-backenddemo.azurewebsites.net/api/http_trigger', {
+            const response = await fetch('http://127.0.0.1:8080/analyze', {
                 method: 'POST',
                 body: formData
             });
