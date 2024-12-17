@@ -1,0 +1,7 @@
+flask
+playwright
+beautifulsoup4
+openai
+python-dotenv
+requests
+azure-functions 
