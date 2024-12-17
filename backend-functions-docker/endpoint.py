@@ -20,7 +20,7 @@ def analyze_page():
 
     # Verificar si la URL pertenece a una página gubernamental
     if not ('.gov' in url or '.gob' in url):
-        return jsonify({'error': 'URL does not belong to a governmental website'}), 400
+        return jsonify({'fifth_error': 'URL does not belong to a governmental website'}), 400
 
     # 2. Ejecutar el script de análisis de accesibilidad
     try:
@@ -34,12 +34,12 @@ def analyze_page():
 
 
     try:
-        correcciones = get_chat_completion(hallazgos, language, temperature = 0, max_tokens=2000)  # Script 2
+        correcciones = get_chat_completion(hallazgos, language, temperature = 0, max_tokens=10000)  # Script 2
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'fourth_error': str(e)}), 500
 
     # 4. Devolver las correcciones al frontend
     return jsonify(correcciones), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=True)
