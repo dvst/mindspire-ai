@@ -1,31 +1,10 @@
-# Stage 1: Build environment
-FROM python:3.9-slim as builder
+# To enable ssh & remote debugging on app service change the base image to the one below
+# FROM mcr.microsoft.com/azure-functions/python:4-python3.11-appservice
+FROM mcr.microsoft.com/azure-functions/python:4-python3.11
 
-# Set working directory
-WORKDIR /app
+ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
+    AzureFunctionsJobHost__Logging__Console__IsEnabled=true
 
-# Install build dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy requirements first to leverage Docker cache
-COPY requirements.txt .
-
-# Create and activate virtual environment
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Stage 2: Production environment
-FROM python:3.9-slim
-
-# Set working directory
-WORKDIR /app
-
-# Install Playwright system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libnss3 \
     libnspr4 \
@@ -42,25 +21,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libasound2 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy virtual environment from builder
-COPY --from=builder /opt/venv /opt/venv
+COPY requirements.txt /
+RUN pip install -r /requirements.txt
 
-# Set environment variables
-ENV PATH="/opt/venv/bin:$PATH"
-ENV PYTHONPATH="/app"
-
-# Copy application code
-COPY . .
-
-# Install Playwright browsers
 RUN playwright install chromium
 
-# Expose port
-EXPOSE 5000
-
-# Set the Azure Functions host
-ENV AzureWebJobsScriptRoot=/app \
-    AzureFunctionsJobHost__Logging__Console__IsEnabled=true
-
-# Command to run the application
-CMD [ "python", "endpoint.py" ]
+COPY . /home/site/wwwroot
