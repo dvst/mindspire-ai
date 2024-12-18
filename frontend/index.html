@@ -106,6 +106,22 @@
                         </div>
                     </form>
 
+                    <div class="mt-8 max-w-2xl mx-auto">
+                        <label for="language-select" class="block text-sm font-medium text-gray-700">Select analysis results language</label>
+                        <select 
+                            id="language-select"
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                            aria-label="Select Language"
+                            required
+                        >
+                            <option value="en">🇺🇸 English</option>
+                            <option value="es">🇪🇸 Spanish</option>
+                            <option value="zh">🇨🇳 Chinese</option>
+                            <option value="tl">🇵🇭 Tagalog</option>
+                            <option value="vi">🇻🇳 Vietnamese</option>
+                        </select>
+                    </div>
+
                     <div class="mt-8 flex flex-wrap justify-center lg:justify-start gap-4 text-sm">
                         <span class="inline-flex items-center text-gray-600">
                             <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -411,7 +427,9 @@
         async function handleFormSubmit(e) {
             e.preventDefault();
             const urlInput = document.getElementById('url-input');
+            const languageSelect = document.getElementById('language-select');
             const url = urlInput.value;
+            const language = languageSelect.value;
             const resultsContainer = document.getElementById('analysis-results-container');
             const initialState = resultsContainer.querySelector('.text-gray-500');
             const resultsDiv = document.getElementById('analysis-results');
@@ -434,7 +452,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ url: url })
+                    body: JSON.stringify({ url: url, language: language })
                 });
 
                 const data = await response.json();
