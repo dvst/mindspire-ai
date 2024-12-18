@@ -18,22 +18,16 @@ def http_trigger(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
     try:
-        url = req.params.get('url')
-        if not url:
-            try:
-                req_body = req.get_json()
-            except ValueError:
-                pass
-            else:
-                url = req_body.get('url')
+
+        # get url from form-data, x-www-form-urlencoded, raw body or query params
+        url = req.form.get('url') or req.params.get('url') or req.get_json().get('url') or req.form.get('url')
+        language = req.form.get('language') or req.params.get('language') or req.get_json().get('language') or req.form.get('language')
     except Exception as e:
-        logging.error(f"Error second: {e}")
+        logging.error(f"Error 27: {e}")
         return func.HttpResponse(
-            "Error second",
-            status_code=500
+            "Error3: La solicitud debe contener un campo 'url'.",
+            status_code=400
         )
-    
-    language = req.params.get('language') or "english"
 
     API_KEY = os.getenv("OPENAI_API_KEY")
     assert API_KEY, "ERROR: Azure OpenAI Key is missing"
@@ -195,10 +189,11 @@ def http_trigger(req: func.HttpRequest) -> func.HttpResponse:
         return response.choices[0].message["content"]
         
     try:
+        logging.info(f"Analizando la página: {url}")
         hallazgos = check_wcag(url)
         
     except Exception as e:
-        logging.error(f"Error: {e}")
+        logging.error(f"Error 197: {e}")
         return func.HttpResponse(
             "Error en hallazgos",
             status_code=500
