@@ -86,7 +86,7 @@
                                     id="url-input"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Ex: https://www.alantaga.gov"
-                                    pattern="https://.*"
+                                    pattern="^https?:\/\/([a-zA-Z0-9-]+\.)*gov\.[a-z]{2,6}(\/.*)?$"
                                     required
                                     aria-required="true"
                                     aria-describedby="url-hint"
@@ -529,6 +529,8 @@
         };
     });
 
+    const urlInput = document.getElementById('url-input');
+
     // Helper function to escape HTML
     function escapeHtml(unsafe) {
         return unsafe
@@ -554,6 +556,33 @@
         // Update button background color
         button.classList.toggle('bg-blue-700', !isExpanded);
     }
-    </script>
+
+    function isValidGovUrl(url) {
+        try {
+            let urlToCheck = url;
+            // If no protocol is specified, prepend https://
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                urlToCheck = 'https://' + url;
+            }
+            const urlObj = new URL(urlToCheck);
+            // Updated regex to accept both .gov and .gov.XX domains
+            const govDomainRegex = /^([a-zA-Z0-9-]+\.)*(gov|gob)(\.[a-z]{2,6})?$/i;
+            return govDomainRegex.test(urlObj.hostname);
+        } catch {
+            return false;
+        }
+    }
+
+    // Add input validation
+    urlInput.addEventListener('input', (e) => {
+        const url = e.target.value;
+        if (url && !isValidGovUrl(url)) {
+            urlInput.setCustomValidity('Please enter a valid government URL (e.g., https://data.seattle.gov/dataset/example, https://www.economia.gob.mx/path)');
+        } else {
+            urlInput.setCustomValidity('');
+        }
+    });
+
+</script>
 </body>
 </html>
