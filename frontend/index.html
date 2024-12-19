@@ -21,6 +21,21 @@
             z-index: 1000;
             backdrop-filter: blur(70px);
         }
+        .typewriter {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: black; }
+        }
     </style>
 </head>
 <body class="font-sans antialiased">
@@ -63,7 +78,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="bg-gray-50 py-20" aria-labelledby="hero-heading">
+    <section class="bg-gray-50 pt-20 pb-5" aria-labelledby="hero-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row lg:items-start lg:space-x-8">
                 <!-- Left side - Search and Info -->
@@ -161,6 +176,17 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Summary Section -->
+    <section id="summary-container" class="py-8">
+        <!-- Summary content will be dynamically inserted here -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Summary</h2>
+                <p id="summary-text" class="text-gray-700"></p>
             </div>
         </div>
     </section>
@@ -409,6 +435,7 @@
             const resultsContainer = document.getElementById('analysis-results-container');
             const initialState = resultsContainer.querySelector('.text-gray-500');
             const resultsDiv = document.getElementById('analysis-results');
+            const summaryContainer = document.getElementById('summary-container');
 
             // Show loading state
             initialState.classList.remove('hidden');
@@ -490,6 +517,20 @@
                 document.querySelectorAll('pre code').forEach((block) => {
                     hljs.highlightElement(block);
                 });
+
+                // Display summary if available
+                if (data.summary) {
+                    summaryContainer.innerHTML = `
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                                <h2 class="text-2xl font-bold text-gray-900 mb-4">Summary</h2>
+                                <p id="summary-text" class="text-gray-700"></p>
+                            </div>
+                        </div>
+                    `;
+                    typewriterEffect(data.summary.population);
+                }
+
             } catch (error) {
                 console.error('Error:', error);
                 initialState.classList.remove('hidden');
@@ -587,6 +628,25 @@
         }
     });
 
-</script>
+    // Typewriter effect function
+    function typewriterEffect(text) {
+        const summaryText = document.getElementById('summary-text');
+        let i = 0;
+        const speed = 12; // Speed in milliseconds
+
+        function type() {
+            if (i < text.length) {
+                summaryText.innerHTML = text.substring(0, i + 1);
+                i++;
+                setTimeout(type, speed);
+            } else {
+                summaryText.classList.remove('typewriter');
+            }
+        }
+
+        
+        setTimeout(type, 500);
+    }
+    </script>
 </body>
 </html>
