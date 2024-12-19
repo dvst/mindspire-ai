@@ -14,29 +14,32 @@
             max-width: 100%;
             overflow-x: hidden;
         }
+        .fixed-navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(70px);
+        }
     </style>
 </head>
 <body class="font-sans antialiased">
     <!-- Navigation -->
-    <nav class="bg-white shadow" role="navigation" aria-label="Main navigation">
+    <nav class="shadow fixed-navbar" role="navigation" aria-label="Main navigation">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <a href="#" class="text-xl font-bold text-gray-800" aria-label="Home">
-                        YourLogo
+                        <img src="./mindspire-logo.png" alt="Mindspire logo image" class="h-8">
                     </a>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#features" class="text-gray-600 hover:text-gray-900 transition-colors">Features</a>
-                    <a href="#benefits" class="text-gray-600 hover:text-gray-900 transition-colors">Benefits</a>
-                    <a href="#testimonials" class="text-gray-600 hover:text-gray-900 transition-colors">Testimonials</a>
-                    <p>If you liked this project, please give it a star 👉</p>                    
+                    <a href="#features-section" class="text-gray-600 hover:text-gray-900 transition-colors scroll-link">Features</a>
+                    <a href="#benefits-section" class="text-gray-600 hover:text-gray-900 transition-colors scroll-link">Benefits</a>
+                    <a href="https://github.com/dvst/mindspire-ai" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-label="Star github project">If you liked this project, please give it a star 👉</a>
                     <a href="https://github.com/dvst/mindspire-ai" target="_blank">
                       <img src="https://img.shields.io/github/stars/dvst/mindspire-ai?style=social" alt="GitHub Star Badge">
                     </a>      
-                    <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-label="Get Started">
-                        Get Started
-                    </button>
                 </div>
                 <!-- Mobile menu button -->
                 <button class="md:hidden bg-white p-2 rounded-md" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu" onclick="toggleMobileMenu()">
@@ -48,17 +51,13 @@
         </div>
         <div id="mobile-menu" class="hidden md:hidden">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#features" class="text-gray-600 hover:text-gray-900 transition-colors">Features</a>
-                <a href="#benefits" class="text-gray-600 hover:text-gray-900 transition-colors">Benefits</a>
-                <a href="#testimonials" class="text-gray-600 hover:text-gray-900 transition-colors">Testimonials</a>
+                <a href="#features-section" class="text-gray-600 hover:text-gray-900 transition-colors scroll-link">Features</a>
+                <a href="#benefits-section" class="text-gray-600 hover:text-gray-900 transition-colors scroll-link">Benefits</a>
                 <a href="https://github.com/your-repo" class="text-gray-600 hover:text-gray-900 transition-colors" aria-label="Star us on GitHub">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.71-2.78.61-3.37-1.34-3.37-1.34-.45-1.15-1.1-1.46-1.1-1.46-.9-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.54 9.54 0 0112 6.8c.85.004 1.71.115 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48A10.01 10.01 0 0022 12c0-5.52-4.48-10-10-10z"/>
                     </svg>
                 </a>
-                <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-label="Get Started">
-                    Get Started
-                </button>
             </div>
         </div>
     </nav>
@@ -209,69 +208,8 @@
         </div>
     </section>
 
-    <!-- Social Proof -->
-    <section class="py-12 bg-white" aria-labelledby="testimonials-heading">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 id="testimonials-heading" class="text-3xl font-extrabold text-center text-gray-900 mb-12">
-                Trusted by Accessibility Experts
-            </h2>
-            <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
-                <div class="flex justify-center items-center">
-                    <img src="placeholder-logo1.svg" alt="Company 1 logo" class="h-12">
-                </div>
-                <div class="flex justify-center items-center">
-                    <img src="placeholder-logo2.svg" alt="Company 2 logo" class="h-12">
-                </div>
-                <div class="flex justify-center items-center">
-                    <img src="placeholder-logo3.svg" alt="Company 3 logo" class="h-12">
-                </div>
-                <div class="flex justify-center items-center">
-                    <img src="placeholder-logo4.svg" alt="Company 4 logo" class="h-12">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Benefits -->
-    <section class="py-16 bg-gray-50" aria-labelledby="benefits-heading">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 id="benefits-heading" class="text-3xl font-extrabold text-center text-gray-900 mb-12">
-                Why Choose Us
-            </h2>
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <div class="text-blue-600 mb-4">
-                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Instant Scanning</h3>
-                    <p class="text-gray-600">Get immediate accessibility insights for your website.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <div class="text-blue-600 mb-4">
-                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">AI-Powered Suggestions</h3>
-                    <p class="text-gray-600">Smart recommendations to improve accessibility.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <div class="text-blue-600 mb-4">
-                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">WCAG Compliance</h3>
-                    <p class="text-gray-600">Ensure your site meets accessibility standards.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Features -->
-    <section class="py-16 bg-white" aria-labelledby="features-heading">
+    <section id="features-section" class="py-16 bg-white" aria-labelledby="features-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 id="features-heading" class="text-3xl font-extrabold text-center text-gray-900 mb-12">
                 Key Features
@@ -288,6 +226,44 @@
                 <div class="relative p-6 border border-gray-200 rounded-lg">
                     <h3 class="text-lg font-medium text-gray-900 mb-2">Team Collaboration</h3>
                     <p class="text-gray-600">Work together seamlessly with built-in collaboration tools.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section id="benefits-section" class="py-16 bg-gray-50" aria-labelledby="benefits-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 id="benefits-heading" class="text-3xl font-extrabold text-center text-gray-900 mb-12">
+                Why Choose Us
+            </h2>
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="text-blue-600 mb-4">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Instant Scanning</h3>
+                    <p class="text-gray-600">Get immediate accessibility insights for your website.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="text-blue-600 mb-4">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">AI-Powered Suggestions</h3>
+                    <p class="text-gray-600">Smart recommendations to improve accessibility.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="text-blue-600 mb-4">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">WCAG Compliance</h3>
+                    <p class="text-gray-600">Ensure your site meets accessibility standards.</p>
                 </div>
             </div>
         </div>
@@ -494,12 +470,12 @@
                                             </div>
                                         ` : ''}
                                         <div>
-                                            <h4 class="font-semibold text-gray-700 mb-2">Suggestion:</h4>
+                                            <h4 class="font-semibold text-gray-700 mb-2">✨ Suggestion:</h4>
                                             <p class="text-gray-600">${item.suggestion}</p>
                                         </div>
                                         ${item.code_suggestion ? `
                                             <div>
-                                                <h4 class="font-semibold text-gray-700 mb-2">Suggested Code:</h4>
+                                                <h4 class="font-semibold text-gray-700 mb-2">✨ Suggested Code:</h4>
                                                 <pre class="bg-gray-800 rounded-md"><code class="language-html hljs p-3 block overflow-x-auto">${escapeHtml(item.code_suggestion)}</code></pre>
                                             </div>
                                         ` : ''}
@@ -545,6 +521,16 @@
             button.setAttribute('aria-expanded', !isExpanded);
             menu.classList.toggle('hidden');
         };
+
+        // Smooth scroll for links with class 'scroll-link'
+        document.querySelectorAll('.scroll-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
     });
 
     const urlInput = document.getElementById('url-input');
