@@ -97,6 +97,15 @@ Ensure to replace placeholders with actual values specific to your environment.
    ```bash
    az functionapp create --name AccessibilityCheckerApp --storage-account yourstorageaccount --resource-group AccessibilityCheckerGroup --consumption-plan-location eastus --runtime python --functions-version 4
    ```
+5. Deploy an Azure OpenAI Service resource:
+   ```bash
+   az cognitiveservices account create --name yourOpenAIResource --resource-group AccessibilityCheckerGroup --kind OpenAI --sku S0 --location eastus
+   ```
+6. Deploy the GPT-4o-mini model:
+   - Navigate to the Azure OpenAI Studio: [Azure OpenAI Studio](https://oai.azure.com/portal).
+   - Select your resource and create a new deployment for the GPT-4o-mini model.
+   - Name the deployment `gpt-4o-mini` to match the configuration.
+
 
 To set these environment variables in Azure, use the following commands:
 
