@@ -19,7 +19,12 @@ Access the app here: [Mindspire Web App](https://mindspire-webapp.azurewebsites.
 1. Clone the repository:
    ```bash
    git clone https://github.com/dvst/mindspire-ai.git
-   cd mindspire-ai
+   cd mindspire-ai/frontend
+   ```
+
+2. Create a ZIP package of the project:
+   ```bash
+   zip -r app.zip .
    ```
 
 ## Deployment Process
@@ -28,7 +33,6 @@ Access the app here: [Mindspire Web App](https://mindspire-webapp.azurewebsites.
 
 - Azure CLI installed: [Install Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 - Access to an Azure subscription.
-- An Azure App Service resource created for hosting the app.
 
 ### Deployment Steps
 
@@ -37,15 +41,40 @@ Access the app here: [Mindspire Web App](https://mindspire-webapp.azurewebsites.
    az login
    ```
 
-2. **Navigate to the project directory:**
-   Ensure all project files are in the root directory.
-
-3. **Create a ZIP package of the project:**
+2. **Create an Azure Resource Group (if not already created):**
+   Replace `your-resource-group-name` and `your-region` with your desired values.
    ```bash
-   zip -r app.zip .
+   az group create --name your-resource-group-name --location your-region
    ```
 
-4. **Deploy the ZIP file to Azure App Services:**
+3. **Create an Azure App Service Plan:**
+   Replace `your-app-service-plan` with the name for your plan.
+   ```bash
+   az appservice plan create --name your-app-service-plan --resource-group your-resource-group-name --sku F1
+   ```
+
+   Validate appservice plan creation:
+   ```bash
+   az appservice plan list --output table
+   ```
+
+4. **Create the Web App:**
+   Replace `your-app-service-name` with your desired app name.
+   ```bash
+   az webapp create --name your-app-service-name --plan your-app-service-plan --resource-group your-resource-group-name
+   ```
+
+   Validate webapp creation:
+   ```bash
+   az webapp list --output table
+   ```
+
+   You can also query details of the webapp just created:
+   ```bash
+   az webapp show --name your-app-service-name --resource-group your-resource-group-name --query "state"
+   ```
+
+5. **Deploy the ZIP file to Azure App Services:**
    Replace `your-app-service-name` with the name of your Azure App Service.
    ```bash
    az webapp deployment source config-zip \
@@ -54,7 +83,7 @@ Access the app here: [Mindspire Web App](https://mindspire-webapp.azurewebsites.
      --src app.zip
    ```
 
-5. **Verify the deployment:**
+6. **Verify the deployment:**
    Once the deployment is complete, open the application URL to ensure it is working correctly:
    ```bash
    az webapp browse --name your-app-service-name --resource-group your-resource-group-name
@@ -62,36 +91,10 @@ Access the app here: [Mindspire Web App](https://mindspire-webapp.azurewebsites.
 
 ### Notes
 
-- Make sure to update your `resource-group-name` and `app-service-name` with the correct values.
+- Make sure to update your `resource-group-name`, `app-service-plan`, and `app-service-name` with the correct values.
 - Regularly test the app for responsiveness and accessibility compliance.
 
 ## Contributing
 
 Feel free to fork this repository and submit pull requests for any improvements or features you'd like to see.
 
-
-# Useful commands to deploy frontend into Azure App Services
-
-```bash
-az appservice plan create --name mindspire-plan --resource-group diciembre11 --sku F1 --location "centralus"
-```
-
-```bash
-az appservice plan list --output table
-```
-
-```bash
-az webapp create --name mindspire-webapp --resource-group diciembre11 --plan mindspire-plan
-```
-
-```bash
-az webapp list --output table
-```
-
-```bash
-az webapp deployment source config-zip --resource-group diciembre11 --name mindspire-webapp --src site.zip
-```
-
-```bash
-az webapp show --name mindspire-webapp --resource-group diciembre11 --query "state"
-```
