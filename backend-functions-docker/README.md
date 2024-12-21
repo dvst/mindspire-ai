@@ -1,119 +1,170 @@
-# Backend Functions Docker
+# Mindspire Accessibility Checker - Backend Service
 
-This repository contains a Dockerized version of the backend functions for the accessibility analysis service.
+This project is a backend service written in Python 3.11, designed to run on Azure Functions in a Dockerized environment. It serves as an accessibility checker enhanced with AI functionality to provide actionable insights and suggestions for improving web accessibility. The service:
 
-## Prerequisites
+- Analyzes AXE accessibility reports to provide detailed code suggestions for fixes.
+- Summarizes AXE reports, explaining the impact of detected issues on populations with disabilities.
 
-- [nerdctl](https://github.com/containerd/nerdctl) installed
-- [containerd](https://containerd.io/) installed and running
-- Azure CLI (optional, for deployment to Azure)
+## Features
+- **AI-Powered Fix Suggestions**: Automatically generate code fixes based on AXE accessibility reports.
+- **Impact Summaries**: Provide context on how accessibility issues affect individuals with disabilities.
+- **Dockerized**: Easily deploy and scale using containerized environments.
+- **Azure Functions Integration**: Seamless deployment to Azure's serverless compute platform.
 
-## Building the Docker Image
+---
 
-To build the Docker image using nerdctl:
+## Configure
+To configure the backend service, use the `dotenv` Python module for managing environment variables. Create a `.env` file in the project root with the following variables:
 
-```bash
-nerdctl build -t accessibility-backend:latest .
+```env
+
+OPENAI_API_KEY=your_azure_openai_api_key
+OPENAI_API_BASE=your-azure-openai-endpoint
+OPENAI_API_TYPE="azure"
+OPENAI_API_VERSION=azure-openai-api-version
+CHAT_MODEL_NAME=the_name_of_your_deployed_model
+
+# CORS Configuration
+ALLOWED_ORIGINS=https://your-frontend-domain.com
 ```
 
-## Running Locally
+Ensure to replace placeholders with actual values specific to your environment.
 
-To run the container locally:
+---
 
-```bash
-nerdctl run -d -p 8080:8080 \
-  -e OPENAI_API_KEY="your-api-key" \
-  -e OPENAI_API_BASE="your-api-base" \
-  -e OPENAI_API_TYPE="azure" \
-  -e OPENAI_API_VERSION="2023-05-15" \
-  -e CHAT_MODEL_NAME="your-model-name" \
-  accessibility-backend:latest
-```
+## Build
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/dvst/mindspire-ai
+   cd backend-functions-docker
+   ```
+2. Build the Docker image:
+   ```bash
+   docker build -t mindspire-mindspire-accessibility-checker .
+   ```
 
-## Deploying to Azure Functions App Service
+---
 
-1. Tag your image for Azure Container Registry:
+## How to Run Locally
+### Prerequisites
+1. Install the [Azure Functions Core Tools (func)](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local):
+   - **On Windows**:
+     ```powershell
+     npm install -g azure-functions-core-tools@4 --unsafe-perm true
+     ```
+   - **On macOS/Linux**:
+     ```bash
+     npm install -g azure-functions-core-tools@4 --unsafe-perm true
+     ```
 
-```bash
-nerdctl tag accessibility-backend:latest <acr-name>.azurecr.io/accessibility-backend:latest
-```
+2. Ensure Docker is installed and running on your machine.
 
-2. Log in to Azure Container Registry:
+3. Create a `.env` file as described in the **Configure** section.
 
-```bash
-az acr login --name <acr-name>
-```
+4. Set up a Python virtual environment and install dependencies:
+   ```bash
+   python3.11 -m venv venv
+   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+   pip install -r requirements.txt
+   ```
 
-3. Push the image:
+### Steps
+1. Start the Azure Function in a Docker container:
+   ```bash
+   func start
+   ```
 
-```bash
-nerdctl push <acr-name>.azurecr.io/accessibility-backend:latest
-```
+2. Access the backend service at `http://localhost:7071`.
 
+3. Test the endpoints using tools like Postman or curl.
+
+---
+
+## Prepare Azure Resources
+1. Log in to Azure:
+   ```bash
+   az login
+   ```
+2. Create a Resource Group:
+   ```bash
+   az group create --name AccessibilityCheckerGroup --location eastus
+   ```
+3. Create an Azure Storage Account:
+   ```bash
+   az storage account create --name yourstorageaccount --resource-group AccessibilityCheckerGroup --location eastus --sku Standard_LRS
+   ```
 4. Create an Azure Function App:
+   ```bash
+   az functionapp create --name AccessibilityCheckerApp --storage-account yourstorageaccount --resource-group AccessibilityCheckerGroup --consumption-plan-location eastus --runtime python --functions-version 4
+   ```
 
-```bash
-az functionapp create \
-  --name <function-app-name> \
-  --resource-group <resource-group> \
-  --storage-account <storage-account> \
-  --runtime python \
-  --runtime-version 3.9 \
-  --functions-version 4 \
-  --image <acr-name>.azurecr.io/accessibility-backend:latest
-```
+---
 
-## Environment Variables
+## Push Docker Image to Azure Container Registry and Deploy
+### Prerequisites
+1. Ensure you have an Azure Container Registry (ACR) set up:
+   ```bash
+   az acr create --resource-group AccessibilityCheckerGroup --name youracrname --sku Basic
+   ```
+2. Log in to the ACR:
+   ```bash
+   az acr login --name youracrname
+   ```
 
-The following environment variables need to be configured:
+### Steps
+1. Tag the Docker image with the ACR name:
+   ```bash
+   docker tag mindspire-accessibility-checker youracrname.azurecr.io/mindspire-accessibility-checker:latest
+   ```
 
-- `OPENAI_API_KEY`: Your Azure OpenAI API key
-- `OPENAI_API_BASE`: Your Azure OpenAI endpoint
-- `OPENAI_API_TYPE`: Set to "azure"
-- `OPENAI_API_VERSION`: Azure OpenAI API version
-- `CHAT_MODEL_NAME`: The name of your deployed model
+2. Push the Docker image to the ACR:
+   ```bash
+   docker push youracrname.azurecr.io/mindspire-accessibility-checker:latest
+   ```
 
-## Development
+3. Update the Azure Function App to use the custom Docker image:
+   ```bash
+   az functionapp config container set --name AccessibilityCheckerApp \
+     --resource-group AccessibilityCheckerGroup \
+     --docker-custom-image-name youracrname.azurecr.io/mindspire-accessibility-checker:latest \
+     --docker-registry-server-url https://youracrname.azurecr.io
+   ```
 
-To modify the application:
+4. Deploy the application:
+   ```bash
+   func azure functionapp publish AccessibilityCheckerApp --docker
+   ```
+5. Configure CORS for the frontend to access the backend:
+   ```bash
+   az functionapp cors add --name AccessibilityCheckerApp --resource-group AccessibilityCheckerGroup --allowed-origins "https://your-frontend-domain.com"
+   ```
 
-1. Update the code in the respective Python files
-2. Rebuild the Docker image
-3. Test locally
-4. Push to Azure Container Registry
-5. Update the Function App
+6. Restart the Azure Function App to apply the changes:
+   ```bash
+   az functionapp restart --name AccessibilityCheckerApp --resource-group AccessibilityCheckerGroup
+   ```
+
+7. Test the deployed Azure Function App:
+   - Retrieve the Function App URL:
+     ```bash
+     az functionapp show --name AccessibilityCheckerApp --resource-group AccessibilityCheckerGroup --query defaultHostName -o tsv
+     ```
+   - Test the endpoints using the retrieved URL and tools like Postman or curl.
+
+
+---
+
+## Notes
+- **CORS Configuration**: Ensure that your frontend domain is included in the `ALLOWED_ORIGINS` variable and added to the Azure Function CORS settings.
+- **AXE Integration**: Ensure you have valid access to AXE APIs if needed for the enhanced AI functionality.
+- **Testing**: Use tools like Postman or curl to test API endpoints locally and on Azure.
 
 ## Troubleshooting
 
-If you encounter any issues:
-
-1. Check the logs:
-```bash
-nerdctl logs <container-id>
-```
-
-2. Verify environment variables are set correctly
-3. Ensure all required dependencies are listed in requirements.txt
+1. Verify environment variables are set correctly
+2. Ensure all required dependencies are listed in requirements.txt
 4. Check Azure Function App logs through the Azure portal
 
-## Notes
+For further details or troubleshooting, please refer to the [Azure Functions Documentation](https://learn.microsoft.com/en-us/azure/azure-functions/).
 
-- The Dockerfile uses multi-stage building to reduce the final image size
-- Only necessary system dependencies are installed
-- The image is based on python:3.9-slim for minimal size
-- Playwright is installed with only the Chromium browser to save space
-```
 
-You'll also need to create a requirements.txt file if you haven't already. Here's what it should contain based on your current setup:
-
-```text:backend-functions-docker/requirements.txt
-flask
-playwright
-beautifulsoup4
-openai
-python-dotenv
-requests
-azure-functions
-```
-
-This setup provides a lightweight, production-ready Docker image that's compatible with Azure Functions App Service. The multi-stage build helps reduce the final image size by separating the build environment from the runtime environment. The README provides comprehensive instructions for both local development using nerdctl and deployment to Azure.
