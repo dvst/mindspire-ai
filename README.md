@@ -1,19 +1,21 @@
-# mindspire-ai
+# Mindspire - Web Accessibility Checker
 
-## Setup Instructions
+Enhance your website's accessibility with AI-powered suggestions. Make the web accessible for everyone. 
 
-### 1. Create a virtual environment for Python 3.11
+- WCAG 2.1 Guidelines
+- AI-Powered Analysis
+- Detailed Reports 
 
-python3.11 -m venv venv_py311
-source venv_py311/bin/activate
-pip install -r ../requirements.txt
+## Powered by Leading Technologies
+- Microsoft Azure
+- OpenAI
+- Axe - Industry-standard accessibility testing engine
 
-playwright install chromium
+## Key Features
+- Automated Workflows: Streamline your processes with intelligent automation tools.
+- Real-time Analytics: Get insights instantly with our powerful analytics dashboard.
 
-# run the scripts
+## Components
+- [Frontend](https://github.com/dvst/mindspire-ai/tree/main/frontend)
+- [Backend](https://github.com/dvst/mindspire-ai/tree/main/backend-functions-docker)
 
-python scripts/scraping.py
-
-python backend-playwright/playwright-wcag.py
-
-# give me a summary of the project 
