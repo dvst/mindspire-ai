@@ -22,7 +22,13 @@ Access the app here: [Mindspire Web App](https://mindspire-webapp.azurewebsites.
    cd mindspire-ai/frontend
    ```
 
-2. Create a ZIP package of the project:
+2. Identify backend endpoint and replace it with yours
+```bash
+grep mindspire-backend-func-docker -l index.html
+# REPLACE IT WITH YOURS
+```
+
+3. Create a ZIP package of the project:
    ```bash
    zip -r app.zip .
    ```
