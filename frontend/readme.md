@@ -4,6 +4,8 @@ Mindspire is a responsive and WCAG-compliant web application built using vanilla
 
 The app is hosted on Azure App Services and deployed using the Azure CLI via the ZIP file method. 
 
+![mindspire landing page](https://github.com/dvst/mindspire-ai/blob/main/mindspire-landing-page.png?raw=true)
+
 ## Features
 
 - **Responsive Design**: Optimized for various screen sizes and devices.
@@ -26,7 +28,8 @@ Access the app here: [Mindspire Web App](https://mindspire-webapp.azurewebsites.
 ```bash
 grep mindspire-backend-func-docker -l index.html
 # REPLACE IT WITH YOURS
-```
+```![mindspire-landing-page](https://github.com/user-attachments/assets/c9242fc5-5e3a-4a39-be3b-3997cc2cc4b6)
+
 
 3. Create a ZIP package of the project:
    ```bash
