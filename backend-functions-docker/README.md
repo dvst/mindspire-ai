@@ -98,6 +98,19 @@ Ensure to replace placeholders with actual values specific to your environment.
    az functionapp create --name AccessibilityCheckerApp --storage-account yourstorageaccount --resource-group AccessibilityCheckerGroup --consumption-plan-location eastus --runtime python --functions-version 4
    ```
 
+To set these environment variables in Azure, use the following commands:
+
+```bash
+az functionapp config appsettings set --name AccessibilityCheckerApp \
+  --resource-group AccessibilityCheckerGroup \
+  --settings "OPENAI_API_KEY=your_azure_openai_api_key" \
+             "OPENAI_API_BASE=your-azure-openai-endpoint" \
+             "OPENAI_API_TYPE=azure" \
+             "OPENAI_API_VERSION=azure-openai-api-version" \
+             "CHAT_MODEL_NAME=the_name_of_your_deployed_model"
+```
+
+
 ---
 
 ## Push Docker Image to Azure Container Registry and Deploy
